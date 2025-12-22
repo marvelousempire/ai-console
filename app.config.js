@@ -17,15 +17,27 @@ export default {
     mode: 'dark'
   },
 
-  navigation: {
-    tabs: [
-      { id: 'chat', label: 'Chat', icon: '💬', file: 'chat.html', default: true },
-      { id: 'models', label: 'Models', icon: '🧠', file: 'models.html' },
-      { id: 'prompts', label: 'Prompts', icon: '📝', file: 'prompts.html' },
-      { id: 'analytics', label: 'Analytics', icon: '📊', file: 'analytics.html' },
-      { id: 'settings', label: 'Settings', icon: '⚙️', file: 'settings.html' }
-    ]
+  contentContainerId: 'contentContainer',
+  tabsContainerId: 'mainTabs',
+  headerContainerId: 'global-header-container',
+
+  routes: {
+    '': { page: 'chat', title: 'Chat', fallback: './html/chat.html' },
+    'chat': { page: 'chat', title: 'Chat', fallback: './html/chat.html' },
+    'models': { page: 'models', title: 'Models', fallback: './html/models.html' },
+    'prompts': { page: 'prompts', title: 'Prompts', fallback: './html/prompts.html' },
+    'analytics': { page: 'analytics', title: 'Analytics', fallback: './html/analytics.html' },
+    'settings': { page: 'settings', title: 'Settings', fallback: './html/settings.html' },
+    'login': { page: 'login', title: 'Sign In', fallback: './html/login.html' }
   },
+
+  tabs: [
+    { id: 'chat', label: 'Chat', icon: '💬' },
+    { id: 'models', label: 'Models', icon: '🧠' },
+    { id: 'prompts', label: 'Prompts', icon: '📝' },
+    { id: 'analytics', label: 'Analytics', icon: '📊' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' }
+  ],
 
   api: {
     base: '/api',
