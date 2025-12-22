@@ -1,0 +1,80 @@
+<div style="padding:20px;max-width:1200px;margin:0 auto">
+  <h2 style="margin:0 0 24px">📊 AI Analytics</h2>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="totalChats">--</div>
+      <div class="stat-label">Total Chats</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-value" id="totalTokens">--</div>
+      <div class="stat-label">Tokens Used</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-value" id="avgResponseTime">--</div>
+      <div class="stat-label">Avg Response Time</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-value" id="modelsUsed">--</div>
+      <div class="stat-label">Models Used</div>
+    </div>
+  </div>
+  
+  <div class="sunday-card" style="margin-top:24px">
+    <div class="sunday-card__header">
+      <h3 style="margin:0">📈 Usage Over Time</h3>
+    </div>
+    <div class="sunday-card__body" style="height:300px;display:flex;align-items:center;justify-content:center">
+      <div style="text-align:center;color:var(--muted)">
+        <div style="font-size:48px;margin-bottom:16px">📊</div>
+        <p>Analytics charts coming soon</p>
+        <p style="font-size:12px">Start using AI features to generate data</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="sunday-card" style="margin-top:16px">
+    <div class="sunday-card__header">
+      <h3 style="margin:0">🏆 Top Models</h3>
+    </div>
+    <div class="sunday-card__body">
+      <div id="topModelsList" style="color:var(--muted);text-align:center;padding:20px">
+        No usage data yet
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Load analytics data
+  async function loadAnalytics() {
+    try {
+      const response = await fetch('/api/ai/analytics');
+      const data = await response.json();
+      
+      document.getElementById('totalChats').textContent = data.totalChats || '0';
+      document.getElementById('totalTokens').textContent = formatNumber(data.totalTokens || 0);
+      document.getElementById('avgResponseTime').textContent = (data.avgResponseTime || 0).toFixed(1) + 's';
+      document.getElementById('modelsUsed').textContent = data.modelsUsed || '0';
+      
+    } catch {
+      // Show placeholder data
+      document.getElementById('totalChats').textContent = '0';
+      document.getElementById('totalTokens').textContent = '0';
+      document.getElementById('avgResponseTime').textContent = '--';
+      document.getElementById('modelsUsed').textContent = '0';
+    }
+  }
+  
+  function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+  }
+  
+  loadAnalytics();
+</script>
+

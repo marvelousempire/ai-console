@@ -1,0 +1,103 @@
+<div style="padding:20px;max-width:1200px;margin:0 auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 style="margin:0">🧠 AI Models</h2>
+    <button class="sunday-btn primary" onclick="pullModel()">+ Pull Model</button>
+  </div>
+  
+  <div class="model-grid" id="modelGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">
+      Loading models...
+    </div>
+  </div>
+</div>
+
+<script>
+  async function loadModels() {
+    const grid = document.getElementById('modelGrid');
+    
+    try {
+      const response = await fetch('/api/ollama/models');
+      const data = await response.json();
+      
+      if (!data.models || data.models.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:40px">
+            <div style="font-size:48px;margin-bottom:16px">📭</div>
+            <h3>No models installed</h3>
+            <p style="color:var(--muted)">Pull a model to get started</p>
+            <button class="sunday-btn primary" style="margin-top:16px" onclick="pullModel()">Pull Model</button>
+          </div>
+        `;
+        return;
+      }
+      
+      grid.innerHTML = data.models.map(model => `
+        <div class="model-card">
+          <div class="model-card-header">
+            <span class="model-icon">🧠</span>
+            <div>
+              <div class="model-name">${model.name}</div>
+              <div class="model-size">${formatSize(model.size)}</div>
+            </div>
+          </div>
+          <div class="model-actions">
+            <button class="sunday-btn secondary sm" onclick="selectModel('${model.name}')">Select</button>
+            <button class="sunday-btn ghost sm" onclick="deleteModel('${model.name}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--error)">
+          Failed to load models. Is Ollama running?
+        </div>
+      `;
+    }
+  }
+  
+  function formatSize(bytes) {
+    const gb = bytes / (1024 * 1024 * 1024);
+    return gb.toFixed(1) + ' GB';
+  }
+  
+  function selectModel(name) {
+    localStorage.setItem('ai_model', name);
+    alert('Selected model: ' + name);
+  }
+  
+  async function pullModel() {
+    const name = prompt('Enter model name (e.g., llama3.2, mistral, codellama):');
+    if (!name) return;
+    
+    alert('Pulling model: ' + name + '\nThis may take a while...');
+    
+    try {
+      await fetch('/api/ollama/pull', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      loadModels();
+    } catch (err) {
+      alert('Failed to pull model');
+    }
+  }
+  
+  async function deleteModel(name) {
+    if (!confirm('Delete model: ' + name + '?')) return;
+    
+    try {
+      await fetch('/api/ollama/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      loadModels();
+    } catch (err) {
+      alert('Failed to delete model');
+    }
+  }
+  
+  loadModels();
+</script>
+

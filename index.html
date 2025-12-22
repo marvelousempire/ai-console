@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 AI Console</title>
+
+  <!-- 🌞 Sunday App Framework - Core CSS -->
+  <link rel="stylesheet" href="/sundayapp/css/tokens.css">
+  <link rel="stylesheet" href="/sundayapp/css/base.css">
+  <link rel="stylesheet" href="/sundayapp/css/utilities.css">
+
+  <!-- AI Console overrides -->
+  <link rel="stylesheet" href="css/ai-console.css">
+
+  <style>
+    /* Auth page styles - hide all navigation chrome on login/register pages */
+    body.auth-page .global-header,
+    body.auth-page .tabs-container,
+    body.auth-page .fab-button,
+    body.auth-page .fab-container,
+    body.auth-page [class*="fab"],
+    body.auth-page #global-header-container,
+    body.auth-page #mainTabs,
+    body.auth-page .auth-hide,
+    html.is-auth-page .global-header,
+    html.is-auth-page .tabs-container,
+    html.is-auth-page .fab-button,
+    html.is-auth-page .fab-container,
+    html.is-auth-page [class*="fab"],
+    html.is-auth-page #global-header-container,
+    html.is-auth-page #mainTabs,
+    html.is-auth-page .auth-hide {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    body.auth-page #contentContainer,
+    html.is-auth-page #contentContainer {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+    
+    /* AI Console Header */
+    .ai-header {
+      background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .ai-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.4em;
+      font-weight: 800;
+    }
+    
+    .ai-logo-icon {
+      font-size: 1.5em;
+    }
+    
+    .ai-status {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.85em;
+    }
+    
+    .ai-status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+    }
+    
+    .ai-status-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+    
+    .ai-status-led.warning { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+    .ai-status-led.error { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+    
+    /* Version Badge */
+    .version-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.15s;
+      margin-left: 12px;
+    }
+    .version-badge:hover { transform: scale(1.05); }
+  </style>
+  
+  <!-- EARLY AUTH DETECTION -->
+  <script>
+    (function() {
+      var hash = window.location.hash || '';
+      var isAuth = hash.indexOf('cartridge/auth') !== -1 || 
+                   hash.indexOf('/login') !== -1 || 
+                   hash.indexOf('/register') !== -1;
+      if (isAuth) {
+        document.documentElement.classList.add('is-auth-page');
+      }
+    })();
+  </script>
+</head>
+<body class="dark">
+  <!-- Auth Page Detection Script -->
+  <script>
+    (function() {
+      function updateAuthPageUI() {
+        const hash = window.location.hash || '';
+        const isAuthPage = hash.includes('cartridge/auth') || 
+                           hash.includes('/login') ||
+                           hash.includes('/register') ||
+                           hash.includes('forgot-password') ||
+                           hash.includes('reset-password');
+        
+        document.documentElement.classList.toggle('is-auth-page', isAuthPage);
+        document.body.classList.toggle('auth-page', isAuthPage);
+        
+        const elementsToHide = document.querySelectorAll(
+          '.ai-header, .global-header, .tabs-container, .fab-button, .fab-container, #global-header-container, #mainTabs, .auth-hide'
+        );
+        elementsToHide.forEach(el => {
+          if (isAuthPage) {
+            el.style.cssText = 'display: none !important; visibility: hidden !important;';
+          } else {
+            el.style.cssText = '';
+          }
+        });
+      }
+      updateAuthPageUI();
+      window.addEventListener('hashchange', updateAuthPageUI);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateAuthPageUI);
+      }
+      const observer = new MutationObserver(updateAuthPageUI);
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      setTimeout(updateAuthPageUI, 0);
+      setTimeout(updateAuthPageUI, 100);
+      setTimeout(updateAuthPageUI, 300);
+      setTimeout(updateAuthPageUI, 500);
+      setTimeout(updateAuthPageUI, 1000);
+    })();
+  </script>
+
+  <!-- AI Console Header -->
+  <header class="ai-header auth-hide">
+    <div class="ai-logo">
+      <span class="ai-logo-icon">🤖</span>
+      <span>AI Console</span>
+      <span class="version-badge" id="versionBadge" onclick="window.showChangelog?.()" title="View changelog">v1.0.0</span>
+    </div>
+    <div class="ai-status">
+      <div class="ai-status-item">
+        <span class="ai-status-led" id="ollamaStatusLed"></span>
+        <span id="ollamaStatusText">Checking Ollama...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Header Container -->
+  <div id="global-header-container" class="global-header auth-hide"></div>
+
+  <!-- Tabs Navigation -->
+  <div class="tabs-container auth-hide" style="max-width:1400px;margin:0 auto;padding:0 16px;border-top:1px solid var(--line);margin-top:8px;overflow:hidden">
+    <div class="tabs" id="mainTabs">
+      <a class="tab-btn" href="#chat" data-tab="chat" data-route="chat">
+        <span class="tab-icon">💬</span>
+        <span class="tab-label">Chat</span>
+      </a>
+      <a class="tab-btn" href="#models" data-tab="models" data-route="models">
+        <span class="tab-icon">🧠</span>
+        <span class="tab-label">Models</span>
+      </a>
+      <a class="tab-btn" href="#prompts" data-tab="prompts" data-route="prompts">
+        <span class="tab-icon">📝</span>
+        <span class="tab-label">Prompts</span>
+      </a>
+      <a class="tab-btn" href="#analytics" data-tab="analytics" data-route="analytics">
+        <span class="tab-icon">📊</span>
+        <span class="tab-label">Analytics</span>
+      </a>
+      <a class="tab-btn" href="#settings" data-tab="settings" data-route="settings">
+        <span class="tab-icon">⚙️</span>
+        <span class="tab-label">Settings</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Content Container -->
+  <div id="contentContainer" style="min-height:400px">
+    <div class="sunday-card" style="max-width:720px;margin:24px auto;">
+      <div class="sunday-card__body" style="text-align:center;padding:40px">
+        <div style="font-size:48px;margin-bottom:16px">🤖</div>
+        <h2 style="margin:0 0 8px">AI Console</h2>
+        <p style="color:var(--muted)">Loading AI features...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunday Framework Bootstrap -->
+  <script type="module">
+    import { Sunday } from '/sundayapp/index.js';
+    import config from './app.config.js';
+
+    // Initialize Sunday with AI Console config
+    await Sunday.init(config);
+
+    // Check Ollama status
+    async function checkOllamaStatus() {
+      const led = document.getElementById('ollamaStatusLed');
+      const text = document.getElementById('ollamaStatusText');
+      
+      try {
+        const response = await fetch('/api/ollama/status');
+        const data = await response.json();
+        
+        if (data.running) {
+          led.className = 'ai-status-led';
+          text.textContent = 'Ollama Connected';
+        } else {
+          led.className = 'ai-status-led warning';
+          text.textContent = 'Ollama Offline';
+        }
+      } catch {
+        led.className = 'ai-status-led error';
+        text.textContent = 'Ollama Unavailable';
+      }
+    }
+
+    checkOllamaStatus();
+    setInterval(checkOllamaStatus, 30000);
+
+    console.log('🤖 AI Console ready');
+  </script>
+</body>
+</html>
+

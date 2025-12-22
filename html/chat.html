@@ -1,0 +1,81 @@
+<div class="chat-container">
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-message assistant">
+      <p>👋 Hello! I'm your AI assistant. How can I help you today?</p>
+    </div>
+  </div>
+  
+  <div class="chat-input-container">
+    <textarea 
+      class="chat-input" 
+      id="chatInput" 
+      placeholder="Type your message..." 
+      rows="1"
+      onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"
+    ></textarea>
+    <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">
+      Send →
+    </button>
+  </div>
+</div>
+
+<script>
+  let isGenerating = false;
+  
+  async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
+    const sendBtn = document.getElementById('sendBtn');
+    const message = input.value.trim();
+    
+    if (!message || isGenerating) return;
+    
+    // Add user message
+    messages.innerHTML += `<div class="chat-message user"><p>${escapeHtml(message)}</p></div>`;
+    input.value = '';
+    
+    // Show loading
+    isGenerating = true;
+    sendBtn.disabled = true;
+    sendBtn.textContent = '...';
+    
+    const loadingId = 'loading-' + Date.now();
+    messages.innerHTML += `<div class="chat-message assistant" id="${loadingId}"><p>Thinking...</p></div>`;
+    messages.scrollTop = messages.scrollHeight;
+    
+    try {
+      const response = await fetch('/api/ollama/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message,
+          model: localStorage.getItem('ai_model') || 'llama3.2'
+        })
+      });
+      
+      const data = await response.json();
+      const loadingEl = document.getElementById(loadingId);
+      
+      if (data.response) {
+        loadingEl.innerHTML = `<p>${escapeHtml(data.response)}</p>`;
+      } else {
+        loadingEl.innerHTML = `<p style="color:var(--error)">Error: ${data.error || 'Failed to get response'}</p>`;
+      }
+    } catch (err) {
+      const loadingEl = document.getElementById(loadingId);
+      loadingEl.innerHTML = `<p style="color:var(--error)">Error: Could not connect to AI service</p>`;
+    }
+    
+    isGenerating = false;
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send →';
+    messages.scrollTop = messages.scrollHeight;
+  }
+  
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+</script>
+

@@ -1,0 +1,110 @@
+<div style="padding:20px;max-width:1000px;margin:0 auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 style="margin:0">📝 Prompt Library</h2>
+    <button class="sunday-btn primary" onclick="createPrompt()">+ New Prompt</button>
+  </div>
+  
+  <div class="prompt-list" id="promptList">
+    <!-- Sample prompts -->
+    <div class="prompt-item" onclick="usePrompt('code_review')">
+      <div class="prompt-title">🔍 Code Review</div>
+      <div class="prompt-preview">Review this code for bugs, performance issues, and best practices...</div>
+    </div>
+    
+    <div class="prompt-item" onclick="usePrompt('explain')">
+      <div class="prompt-title">📚 Explain Concept</div>
+      <div class="prompt-preview">Explain this concept in simple terms that a beginner would understand...</div>
+    </div>
+    
+    <div class="prompt-item" onclick="usePrompt('refactor')">
+      <div class="prompt-title">♻️ Refactor Code</div>
+      <div class="prompt-preview">Refactor this code to be more readable, maintainable, and efficient...</div>
+    </div>
+    
+    <div class="prompt-item" onclick="usePrompt('debug')">
+      <div class="prompt-title">🐛 Debug Helper</div>
+      <div class="prompt-preview">Help me debug this issue. Here's what's happening and what I expected...</div>
+    </div>
+    
+    <div class="prompt-item" onclick="usePrompt('document')">
+      <div class="prompt-title">📖 Generate Documentation</div>
+      <div class="prompt-preview">Generate comprehensive documentation for this code including usage examples...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const prompts = {
+    code_review: `Review this code for:
+1. Bugs and potential issues
+2. Performance optimizations
+3. Best practices and code style
+4. Security vulnerabilities
+
+Code to review:
+\`\`\`
+[paste code here]
+\`\`\``,
+    
+    explain: `Explain this concept in simple terms that a beginner would understand. Use analogies and examples where helpful.
+
+Concept: [describe concept]`,
+    
+    refactor: `Refactor this code to be:
+- More readable
+- More maintainable  
+- More efficient
+- Following best practices
+
+Keep the same functionality but improve the implementation.
+
+Code:
+\`\`\`
+[paste code here]
+\`\`\``,
+    
+    debug: `Help me debug this issue.
+
+What I'm trying to do: [describe goal]
+
+What's happening: [describe actual behavior]
+
+What I expected: [describe expected behavior]
+
+Error messages (if any):
+\`\`\`
+[paste errors]
+\`\`\`
+
+Relevant code:
+\`\`\`
+[paste code]
+\`\`\``,
+    
+    document: `Generate comprehensive documentation for this code:
+
+1. Overview/Purpose
+2. Parameters and return values
+3. Usage examples
+4. Edge cases and error handling
+
+Code:
+\`\`\`
+[paste code here]
+\`\`\``
+  };
+  
+  function usePrompt(key) {
+    const prompt = prompts[key];
+    if (prompt) {
+      // Navigate to chat with prompt
+      sessionStorage.setItem('pending_prompt', prompt);
+      window.location.hash = '#chat';
+    }
+  }
+  
+  function createPrompt() {
+    alert('Prompt creation coming soon!');
+  }
+</script>
+
