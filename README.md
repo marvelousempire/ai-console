@@ -97,6 +97,31 @@ ai-console/
 
 ---
 
+## 🛂 Passport System
+
+AI Console uses the **Passport System** for universal identity and loading:
+
+**Passport File:** `passport-ai-console.json`
+
+```json
+{
+  "udin": "CONSOLE-AI-20251223120000",
+  "name": "AI Console",
+  "type": "console",
+  "framework": "sundayapp",
+  "source": "./"
+}
+```
+
+This enables AI Console to be:
+- Run as a **standalone Console** at `/ai-console`
+- Loaded as a **Cartridge** in other consoles
+- **Hot-swapped** between versions without downtime
+
+See [ContributionNetwork/docs/PASSPORT-SYSTEM.md](https://github.com/marvelousempire/ContributionNetwork/docs/PASSPORT-SYSTEM.md) for full documentation.
+
+---
+
 ## 🔗 Related Projects
 
 - [Open WebUI](https://github.com/open-webui/open-webui) — The embedded AI interface
