@@ -5,6 +5,12 @@
 
 ---
 
+## Trustee Quick Start (Plain English)
+
+- **Open it**: Start **Quick Server**, then open **`/ai-console`** (the port is shown as **`Main:`** in the terminal).
+- **What this is**: A private AI dashboard. Your chats can stay on your own machine.
+- **If chat is blank**: Ask the operator to confirm **Open WebUI** is running and reachable on this host.
+
 ## What Is This?
 
 **AI Console** is your personal AI assistant dashboard.
@@ -97,7 +103,7 @@ ai-console/
 - [Open WebUI](https://github.com/open-webui/open-webui) — The AI chat engine inside
 - [Quick Server](https://github.com/marvelousempire/quick-server) — The platform that hosts AI Console
 - [Actions Console](https://github.com/marvelousempire/actions-console) — Automate AI setup
-- [CN Console](https://github.com/marvelousempire/cn-console) — Also has an AI tab
+- [Contribution Network](https://github.com/marvelousempire/ContributionNetwork) — CN Console also has an AI tab
 
 ---
 
