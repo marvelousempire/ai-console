@@ -3,136 +3,104 @@
 **Version:** 1.1.0  
 **Last Updated:** Tuesday Dec 23, 2025
 
-AI Console is a SundayApp-based console for AI features and management, powered by [Open WebUI](https://github.com/open-webui/open-webui).
+---
+
+## What Is This?
+
+**AI Console** is your personal AI assistant dashboard.
+
+It lets you chat with AI, manage your AI models, save your favorite prompts, and see how much you've been using AI. The best part? Everything runs on your own computer — your conversations stay private.
 
 ---
 
-## ✨ Features
+## What Can It Do?
 
-| Tab | Description |
-|-----|-------------|
-| 💬 **Chat** | Full Open WebUI interface embedded (ChatGPT-like experience) |
-| 🧠 **Models** | Pull, manage, and switch Ollama models |
-| 📝 **Prompts** | Save and organize prompt templates |
-| 📊 **Analytics** | Usage stats and performance metrics |
-| ⚙️ **Settings** | Configure AI providers and preferences |
+| Tab | What It Does |
+|-----|--------------|
+| 💬 **Chat** | Talk to AI just like ChatGPT (but it runs on your computer!) |
+| 🧠 **Models** | Download and switch between different AI brains |
+| 📝 **Prompts** | Save prompts you use often for quick access |
+| 📊 **Analytics** | See stats about your AI usage |
+| ⚙️ **Settings** | Change AI providers and preferences |
 
 ---
 
-## 🤖 Open WebUI Integration
+## 💬 Chat with AI (Open WebUI)
 
-The **Chat** tab embeds [Open WebUI](https://github.com/open-webui/open-webui) — a full-featured AI chat interface:
+The Chat tab uses [Open WebUI](https://github.com/open-webui/open-webui) — a powerful AI chat interface:
 
-- **Multi-model support** — Switch between Ollama models on the fly
-- **Chat history** — Persistent conversations
-- **RAG support** — Upload documents for context
-- **User management** — Multi-user with authentication
-- **Dark mode** — Matches AI Console theme
+- **Works Offline** — No internet needed once set up
+- **Multiple Models** — Switch between AI models on the fly
+- **Chat History** — Your old conversations are saved
+- **Upload Files** — Share documents with AI for context
+- **Dark Mode** — Easy on the eyes
 
-### Requirements
+---
 
-Open WebUI must be running on port 3000. Deploy with one command:
+## How to Set It Up
 
+### Step 1: Install the AI
+
+Run this command to set up Open WebUI and Ollama:
 ```bash
-# Using Actions Console Slice Flow
 node slices/slice-runner.js run slices/flows/setup-open-webui.yaml
-
-# Or direct Docker command
-docker run -d -p 3000:8080 \
-  --add-host=host.docker.internal:host-gateway \
-  -v open-webui:/app/backend/data \
-  --name open-webui \
-  --restart always \
-  ghcr.io/open-webui/open-webui:main
 ```
+
+### Step 2: Open AI Console
+
+Go to:
+```
+http://localhost:8001/ai-console
+```
+
+That's it! You can now chat with AI.
 
 ---
 
-## 🚀 Hosting
+## 🛂 Passport (Identity Card)
 
-### Via Quick Server (Recommended)
+AI Console has a "passport" file that tells the system who it is:
 
-AI Console is hosted at `/ai-console` path through Quick Server.
-
-### Standalone
-
-```bash
-# Serve with any static server
-npx serve .
-# Access at http://localhost:3000
-```
-
----
-
-## 🔗 API Expectations
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GET /api/ai/status` | Ollama connection status + models |
-| `POST /api/ai/chat` | Chat completion |
-| `GET /api/ollama/detect` | Ollama installation check |
-| `GET /api/git/version` | Version info (optional) |
-
-If endpoints don't exist, the UI gracefully falls back.
-
----
-
-## 📁 Directory Structure
-
-```
-ai-console/
-├── index.html          # Main entry point
-├── app.config.js       # Console configuration (v1.1.0)
-├── README.md           # This file
-├── css/
-│   └── ai-console.css  # Custom styles
-└── html/
-    ├── chat.html       # Open WebUI embedded interface
-    ├── models.html     # Model management
-    ├── prompts.html    # Prompt library
-    ├── analytics.html  # Usage analytics
-    ├── settings.html   # Settings page
-    └── login.html      # Authentication
-```
-
----
-
-## 🛂 Passport System
-
-AI Console uses the **Passport System** for universal identity and loading:
-
-**Passport File:** `passport-ai-console.json`
+**Passport:** `passport-ai-console.json`
 
 ```json
 {
   "udin": "CONSOLE-AI-20251223120000",
   "name": "AI Console",
-  "type": "console",
-  "framework": "sundayapp",
-  "source": "./"
+  "type": "console"
 }
 ```
 
-This enables AI Console to be:
-- Run as a **standalone Console** at `/ai-console`
-- Loaded as a **Cartridge** in other consoles
-- **Hot-swapped** between versions without downtime
-
-See [ContributionNetwork/docs/PASSPORT-SYSTEM.md](https://github.com/marvelousempire/ContributionNetwork/docs/PASSPORT-SYSTEM.md) for full documentation.
+This lets AI Console:
+- Run on its own at `/ai-console`
+- Load inside other apps as a part (called a "cartridge")
+- Update to new versions smoothly
 
 ---
 
-## 🔗 Related Projects
+## Folder Layout
 
-- [Open WebUI](https://github.com/open-webui/open-webui) — The embedded AI interface
-- [Quick Server](https://github.com/marvelousempire/quick-server) — Platform host
-- [Actions Console](https://github.com/marvelousempire/actions-console) — Slice Flow automation
-- [CN Console](https://github.com/marvelousempire/cn-console) — Also embeds Open WebUI in AI tab
+```
+ai-console/
+├── index.html          ← The main page
+├── app.config.js       ← App settings
+├── passport-ai-console.json ← Identity file
+├── README.md           ← This file (you're reading it!)
+├── css/                ← How it looks
+└── html/               ← All the pages inside
+```
 
 ---
 
-## License
+## Related Apps
 
-Part of the Sunday App Framework ecosystem.
+- [Open WebUI](https://github.com/open-webui/open-webui) — The AI chat engine inside
+- [Quick Server](https://github.com/marvelousempire/quick-server) — The platform that hosts AI Console
+- [Actions Console](https://github.com/marvelousempire/actions-console) — Automate AI setup
+- [CN Console](https://github.com/marvelousempire/cn-console) — Also has an AI tab
+
+---
 
 **In Good Faith With Clean Hands**
+
+*AI Console v1.1.0*
