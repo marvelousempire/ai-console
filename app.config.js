@@ -1,14 +1,17 @@
 /**
  * AI Console - App Configuration
  * SundayApp Framework Configuration
+ * 
+ * @version 1.1.0
+ * @updated 2025-12-23
  */
 export default {
   app: {
     id: 'ai-console',
     name: 'AI Console',
-    version: '1.0.0',
+    version: '1.1.0',
     icon: '🤖',
-    description: 'AI features, Ollama integration, chat, and model management'
+    description: 'AI Console powered by Open WebUI - full-featured chat, models, prompts, and analytics'
   },
 
   theme: {
