@@ -1,0 +1,35 @@
+{
+  "$schema": "https://thebriefcase.app/schemas/passport.schema.json",
+  
+  "udin": "CONSOLE-AI-20251223120000",
+  "name": "AI Console",
+  "shortName": "ai-console",
+  "type": "console",
+  "version": "1.2.0",
+  
+  "framework": "sundayapp",
+  
+  "source": "./",
+  "entry": "index.html",
+  "config": "app.config.js",
+  
+  "capabilities": {
+    "standalone": true,
+    "cartridge": true,
+    "embeddable": true
+  },
+  
+  "integrations": [
+    { "type": "docker", "service": "open-webui", "port": 3000 },
+    { "type": "service", "service": "ollama", "port": 11434 }
+  ],
+  
+  "metadata": {
+    "created": "2025-12-23T12:00:00Z",
+    "author": "Contribution Network",
+    "repository": "https://github.com/marvelousempire/ai-console",
+    "icon": "🤖",
+    "description": "AI Console - Native AI interface with Open WebUI integration"
+  }
+}
+

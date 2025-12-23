@@ -2,14 +2,14 @@
  * AI Console - App Configuration
  * SundayApp Framework Configuration
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * @updated 2025-12-23
  */
 export default {
   app: {
     id: 'ai-console',
     name: 'AI Console',
-    version: '1.1.0',
+    version: '1.2.0',
     icon: '🤖',
     description: 'AI Console powered by Open WebUI - full-featured chat, models, prompts, and analytics'
   },
