@@ -5,9 +5,13 @@
   "name": "AI Console",
   "shortName": "ai-console",
   "type": "console",
-  "version": "1.2.0",
+  "version": "1.3.0",
   
-  "framework": "sundayapp",
+  "framework": {
+    "name": "sundayapp",
+    "minVersion": "2.4.0",
+    "url": "/sundayapp/index.js"
+  },
   
   "source": "./",
   "entry": "index.html",
@@ -24,8 +28,37 @@
     { "type": "service", "service": "ollama", "port": 11434 }
   ],
   
+  "settings": {
+    "enabled": true,
+    "layout": "hybrid",
+    "storageKey": "ai-console-settings",
+    "sections": [
+      { "id": "general", "label": "General", "icon": "⚙️" },
+      { "id": "models", "label": "Models", "icon": "🧠" },
+      { "id": "providers", "label": "Providers", "icon": "🔌" }
+    ]
+  },
+  
+  "health": {
+    "enabled": true,
+    "endpoint": "/health",
+    "interval": 30000,
+    "checks": [
+      { "name": "ollama", "type": "http", "target": "http://localhost:11434/api/tags", "critical": false },
+      { "name": "open-webui", "type": "http", "target": "http://localhost:3000/health", "critical": false }
+    ]
+  },
+  
+  "discovery": {
+    "enabled": true,
+    "scanPaths": ["./cartridges/"],
+    "autoLoad": true,
+    "priority": 50
+  },
+  
   "metadata": {
     "created": "2025-12-23T12:00:00Z",
+    "updated": "2025-12-23T16:30:00Z",
     "author": "Contribution Network",
     "repository": "https://github.com/marvelousempire/ai-console",
     "icon": "🤖",
