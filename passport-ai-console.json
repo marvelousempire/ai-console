@@ -56,6 +56,18 @@
     "priority": 50
   },
   
+  "dock": {
+    "defaultFavorites": ["ai-console", "quick-server"],
+    "consoleOrder": ["ai-console", "quick-server", "cn-console"],
+    "sections": {
+      "enabled": true,
+      "defaultCollapsed": {
+        "actions": false,
+        "library": false
+      }
+    }
+  },
+  
   "metadata": {
     "created": "2025-12-23T12:00:00Z",
     "updated": "2025-12-23T16:30:00Z",
