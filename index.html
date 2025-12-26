@@ -258,6 +258,36 @@
     // Initialize Sunday with AI Console config
     await Sunday.init(config);
 
+    // Load Framework Header
+    try {
+      window.ConsoleHeaderConfig = {
+        name: 'AI Console',
+        icon: '🤖',
+        version: '1.0.0',
+        showVersionBadge: true,
+        showSourceBadge: true
+      };
+      
+      const { createConsoleHeader } = await import('/sundayapp/components/header/index.js?v=' + Date.now());
+      await createConsoleHeader(window.ConsoleHeaderConfig);
+      console.log('[AI Console] ✅ Framework Header loaded');
+    } catch (err) {
+      console.error('[AI Console] Header load failed:', err);
+    }
+
+    // Load Console Dock
+    try {
+      const { createConsoleDock } = await import('/sundayapp/components/console-dock/index.js?v=' + Date.now());
+      window.consoleDock = await createConsoleDock({
+        consoleRegistry: Sunday?.consoleRegistry,
+        events: Sunday?.events,
+        motion: Sunday?.motion
+      });
+      console.log('[AI Console] ✅ Console Dock loaded');
+    } catch (err) {
+      console.error('[AI Console] Dock load failed:', err);
+    }
+
     // Check Ollama status
     async function checkOllamaStatus() {
       const led = document.getElementById('ollamaStatusLed');
