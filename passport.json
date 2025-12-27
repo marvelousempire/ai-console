@@ -1,0 +1,42 @@
+{
+  "$schema": "/sundayapp/schemas/passport.schema.json",
+  "udin": "CONSOLE-AICONSOLE-20251227000000",
+  "name": "NIVRAM.AI Console",
+  "shortName": "ai-console",
+  "type": "console",
+  "version": "1.0.0",
+  "framework": "sundayapp",
+  "source": "./",
+  "entry": "index.html",
+  "config": "app.config.js",
+  
+  "console": {
+    "id": "ai-console",
+    "icon": "🤖",
+    "description": "NIVRAM.AI - Intelligent assistant",
+    "subdomain": "ai",
+    "port": 8002,
+    "tld": "nivram.ai",
+    "isHashRoute": true,
+    "dockVisibility": "modal",
+    "priority": 5
+  },
+  
+  "bundled": false,
+  
+  "capabilities": {
+    "standalone": true,
+    "cartridge": false,
+    "responsive": true,
+    "accessible": true,
+    "themeable": true
+  },
+  
+  "metadata": {
+    "created": "2025-12-27T00:00:00Z",
+    "updated": "2025-12-27T00:00:00Z",
+    "author": "SundayApp Framework",
+    "repository": "https://github.com/marvelousempire/ai-console"
+  }
+}
+
